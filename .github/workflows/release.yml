@@ -11,8 +11,8 @@ jobs:
   release:
     name: Release
     permissions:
-      contents: write
-      packages: write
+      contents: write | read
+      packages: write | read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -52,6 +52,14 @@ jobs:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
           fingerprint: ${{ vars.GPG_FINGERPRINT }}
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: updated-patches
+          path: patches/build/libs/patches-5.7.2.rvp
+          if-no-files-found: error
+          retention-days: 20
 
       - name: Release
         env:

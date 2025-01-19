@@ -37,8 +37,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ./gradlew :patches:buildAndroid clean
-          FILE=$(find /home/runner/work/revanced-patches-fork/revanced-patches-fork/patches/build/libs -type f -regex '.*patches-[0-9]+\.[0-9]+\.[0-9]+\.rvp$')
-          echo $FILE
+          ls -alh
+          tree .
           FILE2=$(find ./patches/build/libs -type f -regex '.*patches-[0-9]+\.[0-9]+\.[0-9]+\.rvp$')
           echo $FILE2
           if [[ -z "$FILE" ]]; then

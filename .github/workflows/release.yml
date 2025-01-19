@@ -35,7 +35,15 @@ jobs:
       - name: Build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew :patches:buildAndroid clean
+        run: |
+          ./gradlew :patches:buildAndroid clean
+          FILE=$(find patches/build/libs -type f -regex '.*patches-[0-9]+\.[0-9]+\.[0-9]+\.rvp$')
+          if [[ -z "$FILE" ]]; then
+            echo "No matching files found"
+            exit 1
+          fi
+          echo "File found: $FILE"
+          echo "filtered_file=$FILE" >> $GITHUB_ENV
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
